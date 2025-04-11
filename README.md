@@ -64,3 +64,13 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Possíveis melhorias:
+
+* Inclusão de um Enum que seja responsável por conter as mensagens de erros utilizadas no sistema, centralizando assim as mensagens em um só lugar e possibilitando reuso de mensagens sem precisar duplicar código;
+* Nenhuma validação é feita nos dados de entrada para garantir que sejam validos(email, cpf), inclusão de validação também poderia impedir ataques como de SQL injection. Validações poderiam ser feitas por uma camada de DTO ou até mesmo pelo Form Request do Laravel.
+* A classe \User\Create tem mais responsabilidades do que deveria, o handle, que indica que uma ação deve ocorrer deveria estar dentro de um Use Case
+* A classe \UseCase\User vai contra o principio de inversão de dependência do solid na criação do usuário, já que faz uma instância direta do repository dentro da classe, o ideal seria uma interface para o repository e que o use case recebesse o repository via construtor . Nesta mesma classe o handle faz muitas coisas, validação de dados, persistência de dados. Essas ações deveriam estar em outro local.  O handle dessa classe gera uma exceção genérica, poderiamos ter exceções especificas indicando de fato qual é o tipo de problema ocorrido.
+* As classes BankingCreate, classes Find e classes Create estão sendo instanciadas diretamente, com uma interface seria possivel usar polimorfismo como recurso, facilitando testes e até mesmo alterações futuras.
+* Testes poderiam ser incrementados com cenários de integrations e UseCases
+* As conexões com serviços externos poderiam ter configuração de timeout, assim o sistema não é honerado esperando infinitamente e ainda tem-se um nível de qualidade esperada definida.
